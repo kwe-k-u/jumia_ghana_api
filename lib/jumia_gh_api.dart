@@ -1,6 +1,15 @@
 library jumia_gh_api;
 
-/// A Calculator.
-class Jumia{
+import 'package:jumia_gh_api/baseAPI.dart';
+
+
+
+
+
+class Jumia extends BaseAPI{
+  Jumia(String apiKey, String userID) : super(apiKey, userID);
+
+
+
 
 }
