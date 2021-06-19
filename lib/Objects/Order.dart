@@ -49,18 +49,18 @@ class Order{
 
 
   //setters
-  set orderId(String id) => this._orderId = id;
-  set customerFirstName(String name) => this._firstName = name;
-  set customerLastName(String name) => this._lastName = name;
-  set orderNumber(String order) => this._orderNumber = order;
-  set paymentMethod (String payment) => this._paymentMethod = payment;
-  set price(double price) => this._price = price;
-  set remarks (String remark) => this._remarks = remark;
+  set orderId(String? id) => this._orderId = id ?? "";
+  set customerFirstName(String? name) => this._firstName = name ?? "";
+  set customerLastName(String? name) => this._lastName = name ?? "";
+  set orderNumber(String? order) => this._orderNumber = order ?? "";
+  set paymentMethod (String? payment) => this._paymentMethod = payment ?? "";
+  set price(double? price) => this._price = price ?? 0.0;
+  set remarks (String? remark) => this._remarks = remark ?? "";
   set createdAt(DateTime date) => _dateCreatedAt = date;
   set updatedAt(DateTime date) => this._dateUpdatedAt = date;
-  set status(String status) => this._status = status;
+  set status(String? status) => this._status = status ?? "";
   set location(Address location) => this._addressBilling = location;
-  set itemCount(int count )=> this._itemCount = count;
+  set itemCount(int? count )=> this._itemCount = count ?? 0;
 
 
   Order.fromJson(Map<String, dynamic> map){
@@ -70,12 +70,16 @@ class Order{
     orderNumber = map["OrderNumber"];
     paymentMethod = map["PaymentMethod"];
     remarks = map["Remarks"];
-    createdAt = DateTime.parse(map["CreatedAt"]);
-    updatedAt = DateTime.parse(map["UpdatedAt"]);
-    price = map["Price"];
+
+    if (map["CreatedAt"]! != "")
+      createdAt = DateTime.parse(map["CreatedAt"]);
+
+    if (map["UpdatedAt"]! != "")
+      updatedAt = DateTime.parse(map["UpdatedAt"]);
+    price = double.parse(map["Price"]);
     status = map["Statuses"]["Status"];
     location = Address.fromJson(map['AddressBilling']);
-    itemCount = map["ItemsCount"];
+    itemCount = int.parse(map["ItemsCount"]);
   }
 
   

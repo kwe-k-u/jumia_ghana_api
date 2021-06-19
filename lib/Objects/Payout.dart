@@ -44,9 +44,14 @@ class Payout {
       );
 
   Payout.fromJson(Map<String, dynamic> map){
-    this._statementNumber = map["StatementNumber"];
-    this._dateCreated = DateTime.parse(map["CreatedAt"]);
+
+    if (map["CreatedAt"]! != "")
+      this._dateCreated = DateTime.parse(map["CreatedAt"]);
+
+    if (map["UpdatedAt"]! != "")
     this._dateUpdated = DateTime.parse(map["UpdatedAt"]);
+
+    this._statementNumber = map["StatementNumber"];
     this._openingBalance = double.parse(map["OpeningBalance"]);
     this._itemRevenue = double.parse(map["ItemRevenue"]);
     this._shipmentFee = double.parse(map["ShipmentFee"]);
@@ -62,7 +67,7 @@ class Payout {
     this._subsidy = double.parse(map["Subsidy"]);
     this._subsidyRefund = double.parse(map["SubsidyRefund"]);
     this._paymentReference = map["PaymentReference"];
-    this._payoutAmount = double.parse(map["Payout"]);
+    this._payoutAmount = double.parse(map["Payout"].split(" ")[0]);
   }
 
 
@@ -91,66 +96,66 @@ class Payout {
   double get payoutAmount => this._payoutAmount;
 
   //setters
-  set statementNumber(String number) => this._statementNumber = number;
+  set statementNumber(String? number) => this._statementNumber = number ?? "";
   set dateCreated(DateTime date) => this._dateCreated = date;
   set dateUpdated(DateTime date) => this._dateUpdated = date;
-  set openingBalance(double number) => this._openingBalance = number;
-  set itemRevenue(double revenue) => this._itemRevenue;
+  set openingBalance(double? number) => this._openingBalance = number ?? 0.0;
+  set itemRevenue(double? revenue) => this._itemRevenue = revenue ?? 0.0;
 
-  set shipmentFeeCredit(double value) {
-    _shipmentFeeCredit = value;
+  set shipmentFeeCredit(double? value) {
+    _shipmentFeeCredit = value ?? 0.0;
   }
 
-  set feesTotal(double value) {
-    _feesTotal = value;
+  set feesTotal(double? value) {
+    _feesTotal = value ?? 0.0;
   }
 
-  set subTotal(double value) {
-    _subTotal = value;
+  set subTotal(double? value) {
+    _subTotal = value ?? 0.0;
   }
 
-  set subTotal2(double value) {
-    _subTotal2 = value;
+  set subTotal2(double? value) {
+    _subTotal2 = value ?? 0.0;
   }
 
-  set shipmentFee(double value) {
-    _shipmentFee = value;
+  set shipmentFee(double? value) {
+    _shipmentFee = value ?? 0.0;
   }
 
-  set guarantee(double value) {
-    _guarantee = value;
+  set guarantee(double? value) {
+    _guarantee = value ?? 0.0;
   }
 
-  set refundFee(double value) {
-    _refundFee = value;
+  set refundFee(double? value) {
+    _refundFee = value ?? 0.0;
   }
 
-  set closingBalance(double value) {
-    _closingBalance = value;
+  set closingBalance(double? value) {
+    _closingBalance = value ?? 0.0;
   }
 
-  set status(bool value) {
-    _status = value;
+  set status(bool? value) {
+    _status = value ?? false;
   }
 
-  set refund(double value) {
-    _refund = value;
+  set refund(double? value) {
+    _refund = value ?? 0.0;
   }
 
-  set subsidy(double value) {
-    _subsidy = value;
+  set subsidy(double? value) {
+    _subsidy = value ?? 0.0;
   }
 
-  set subsidyRefund(double value) {
-    _subsidyRefund = value;
+  set subsidyRefund(double? value) {
+    _subsidyRefund = value ?? 0.0;
   }
 
-  set paymentReference(String value) {
-    _paymentReference = value;
+  set paymentReference(String? value) {
+    _paymentReference = value ?? "";
   }
 
-  set payoutAmount(double value) {
-    _payoutAmount = value;
+  set payoutAmount(double? value) {
+    _payoutAmount = value ?? 0.0;
   }
 
 

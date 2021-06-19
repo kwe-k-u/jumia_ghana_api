@@ -21,25 +21,25 @@ class Address {
 
 
   Address.fromJson(Map<String, dynamic> map) {
-    Address adress = BillingAddress(
-        map["FirstName"],
-        map["LastName"],
-        map["Phone"],
-        map["Phone2"],
-        map["Address1"],
-        map["Address2"],
-        map["Address3"],
-        map["Address4"],
-        map["Address5"],
-        map["CustomerEmail"],
-        map["City"],
-        map["Ward"],
-        map["Region"],
-        map["PostCode"],
-        map["Country"]);
+        firstName = map["FirstName"];
+        lastName = map["LastName"];
+        phoneNumber1 = map["Phone"];
+        phoneNumber2 = map["Phone2"];
+        address1 = map["Address1"];
+        address2 = map["Address2"];
+        address3 = map["Address3"];
+        address4 = map["Address4"];
+        address5 = map["Address5"];
+        email = map["CustomerEmail"];
+        city = map["City"];
+        ward = map["Ward"];
+        region = map["Region"];
+        postCode = map["PostCode"];
+        country = map["Country"];
+
   }
 
-  BillingAddress(
+  Address(
       String? firstName,
       String? lastName,
       String? phoneNumber1,
@@ -114,7 +114,7 @@ class Address {
   set email(String? email) => this._customerEmail = email ?? "";
   set city(String? city) => this._city = city ?? "";
   set ward(String? ward) => this._ward = ward ?? "";
-  set region(String? region) => this._region ?? "";
+  set region(String? region) => this._region = region ?? "";
   set country(String? country) => this._country = country ?? "";
   set postCode(String? postCode) => this._postCode = postCode ?? "";
 

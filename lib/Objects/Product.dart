@@ -51,26 +51,26 @@ class Product{
 
 
   //setters
-  set name(String n) => this._name = n;
-  set sellerSku(String sku) => this._sellerSku = sku;
-  set parentSku(String parentSku) => this._parentSku = parentSku;
-  set shopSku(String sku) => this._shopSku = sku;
-  set brand(String b) => this._brand = b;
-  set description(String des)=> this._description = description;
-  set taxClass(String tax)=> this._taxClass = tax;
-  set variation(String variation) => this._variation = variation;
-  set quantity(int quan)=> this._quantity = quan; //todo throw exception when quantity is negative
-  set available(int avail) => this._available = avail;
-  set salePrice(double price) => this._salePrice = price;
+  set name(String? n) => this._name = n ?? "";
+  set sellerSku(String? sku) => this._sellerSku = sku ?? "";
+  set parentSku(String? parentSku) => this._parentSku = parentSku ?? "";
+  set shopSku(String? sku) => this._shopSku = sku ?? "";
+  set brand(String? b) => this._brand = b ?? "";
+  set description(String? des)=> this._description = des ?? "";
+  set taxClass(String? tax)=> this._taxClass = tax ?? "";
+  set variation(String? variation) => this._variation = variation ?? "";
+  set quantity(int? quan)=> this._quantity = quan ?? 0; //todo throw exception when quantity is negative
+  set available(int? avail) => this._available = avail ?? 0;
+  set salePrice(double? price) => this._salePrice = price;
   set saleStartDate(DateTime? date) => this._saleStartDate = date;//todo exception if start date is after end date
   set saleEndDate(DateTime? date) => this._saleEndDate = date;
-  set primaryCategory(String category) => this._primaryCategory = category;
-  set primaryCategoryId(String id) => this._primaryCategoryId = id;
-  set category(String cat) => this._categories = cat;
-  set price(double price) => this._price = price;
-  set status(String status) => this._status = status;
-  set productId(String? id) => this._productId = id;
-  set url(String url) => this._url = url;
+  set primaryCategory(String? category) => this._primaryCategory = category ?? "";
+  set primaryCategoryId(String? id) => this._primaryCategoryId = id ?? "";
+  set category(String? cat) => this._categories = cat ?? "";
+  set price(double? price) => this._price = price ?? 0.0;
+  set status(String? status) => this._status = status ?? "";
+  set productId(String? id) => this._productId = id ?? "";
+  set url(String? url) => this._url = url ?? "";
   //todo add setters for the image
 
 
@@ -80,10 +80,10 @@ class Product{
     sellerSku = map["SellerSku"];
     variation = map["Variation"];
     parentSku = map["ParentSku"];
-    quantity = map["Quantity"];
-    available = map["Available"];
-    price = map["Price"];
-    salePrice = map["SalePrice"];
+    quantity = int.parse(map["Quantity"]);
+    available = int.parse(map["Available"]);
+    price = double.parse(map["Price"]);
+    salePrice = double.parse(map["SalePrice"]);
     saleStartDate = DateTime.parse(map["SaleStartDate"]);
     saleEndDate = DateTime.parse(map["SaleEndDate"]);
     status = map["Status"];

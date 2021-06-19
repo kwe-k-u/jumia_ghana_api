@@ -1,6 +1,6 @@
 library jumia_gh_api;
 
-import 'package:jumia_gh_api/uitls/baseAPI.dart';
+import 'package:jumia_gh_api/utils/baseAPI.dart';
 
 
 
