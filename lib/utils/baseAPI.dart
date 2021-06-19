@@ -31,14 +31,17 @@ class BaseAPI{
   }
 
 
-  ///generates a uri to the api endpoint based on the passed [action]
+  ///Generates a uri to the api endpoint based on the passed [action]
   Uri _linkBuilder({required String action, String? orderId}){
     String actionString = "Action=" + action;
     String url = "https://sellercenter-api.jumia.com.gh/?" + actionString;
     String format = "&Format=JSON";
     String time = "&Timestamp=" + __getTime();
+
+    //adding order id if required
     if (orderId != null)
       orderId = "&OrderId=" + orderId;
+
     String userId = "&UserID=" + __getUserID();
     String version = "&Version=" + __getApiVersion();
 
