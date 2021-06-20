@@ -9,6 +9,7 @@
 .history
 .svn/
 test_values.dart
+coverage/
 
 # IntelliJ related
 *.iml

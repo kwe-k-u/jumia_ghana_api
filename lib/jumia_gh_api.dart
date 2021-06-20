@@ -1,10 +1,14 @@
 library jumia_gh_api;
 
+import 'package:http/http.dart' as http;
+import 'package:jumia_gh_api/Objects/Brand.dart';
 import 'package:jumia_gh_api/Objects/Metric.dart';
 import 'package:jumia_gh_api/Objects/Order.dart';
 import 'package:jumia_gh_api/Objects/Payout.dart';
 import 'package:jumia_gh_api/Objects/Product.dart';
+import 'package:jumia_gh_api/Objects/ShipmentProvider.dart';
 import 'package:jumia_gh_api/utils/baseAPI.dart';
+import 'package:xml/xml.dart' as xmlBuild;
 
 
 
@@ -72,6 +76,66 @@ class Jumia extends BaseAPI{
       metrics[sub["StatisticsType"]] = Metric.fromJson(sub);
 
     return metrics;
+  }
+
+  ///Returns a list of brands allowed on jumia
+  Future<List<Brand>> getBrands() async{
+    List<Brand> brands = [];
+
+    //access the list of brands maps from the json
+    List<dynamic> map =
+    ( await get(action: 'GetBrands') )["Body"]["Brands"]["Brand"];
+
+    //adding the brands to the list
+    for(Map<String, dynamic> sub in map)
+      brands.add(Brand.fromJson(sub));
+
+    return brands;
+  }
+
+  ///Returns a list of shipment providers for jumia
+  Future<List<ShipmentProvider>> getShipmentProviders() async{
+    List<ShipmentProvider> provider = [];
+
+    //access the list of provider maps from the json
+    List<dynamic> map =
+    ( await get(action: 'GetShipmentProviders') )["Body"]["ShipmentProviders"]["ShipmentProvider"];
+
+    //adding the providers to the list
+    for(Map<String, dynamic> sub in map)
+      provider.add(ShipmentProvider.fromJson(sub));
+
+    return provider;
+  }
+
+
+  ///Creates a user account to manage the store to which the api key belongs
+  Future<http.Response> createUser() async{
+    final xml = xmlBuild.XmlBuilder();
+      xml.processing("xml", 'version="1.0" encoding="UTF-8"');
+      xml.element("Request",
+          nest: (){
+            xml.element("User",
+                nest: (){
+                    xml.element("Role",
+                        nest: "Seller API Access");
+                    xml.element("Email",
+                        nest: "kwekuappiah11@gmail.com");
+                    xml.element("Status",
+                        nest: "active");
+                    xml.element("Name",
+                        nest: "Kweku Acquaye");
+                    xml.element("DefaultLanguage",
+                        nest: "English");
+                    xml.element("NotifyNewUser",
+                        nest: 1);
+                });
+          });
+
+      // return xml.buildDocument().toXmlString();
+
+    http.Response response = await post("UserCreate", xml.buildDocument().toString());
+    return response;
   }
 
 

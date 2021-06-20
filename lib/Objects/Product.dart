@@ -17,11 +17,13 @@ class Product{
   DateTime? _saleEndDate;
   late String _url;
   List<String>? _imageUrls;
+  late String _mainImage;
   late String _primaryCategory;
   late String _primaryCategoryId;
   String? _categories;
   late String _status;
   String? _productId;
+  Map<String, dynamic>? _productData; //this is a map because the product data depends on the cateogry
 
 
   //getters
@@ -46,6 +48,8 @@ class Product{
   String get primaryCategoryId => this._primaryCategoryId;
   String? get categories => this._categories;
   String? get productId => this._productId;
+  String get mainImage => this._mainImage;
+  Map<String, dynamic> get productData => this._productData ?? {};
 
 
 
@@ -59,7 +63,8 @@ class Product{
   set description(String? des)=> this._description = des ?? "";
   set taxClass(String? tax)=> this._taxClass = tax ?? "";
   set variation(String? variation) => this._variation = variation ?? "";
-  set quantity(int? quan)=> this._quantity = quan ?? 0; //todo throw exception when quantity is negative
+  set quantity(int? quan)=> this._quantity = quan ?? 0;
+  //todo throw exception when quantity is negative
   set available(int? avail) => this._available = avail ?? 0;
   set salePrice(double? price) => this._salePrice = price;
   set saleStartDate(DateTime? date) => this._saleStartDate = date;//todo exception if start date is after end date
@@ -71,6 +76,16 @@ class Product{
   set status(String? status) => this._status = status ?? "";
   set productId(String? id) => this._productId = id ?? "";
   set url(String? url) => this._url = url ?? "";
+  set productData(Map<String, dynamic> data) => this._productData = data;
+  set mainImage(String url) => this._mainImage = url;
+  set setImages(List<String> url) => this._imageUrls = url;
+  set addImage(String url) {
+    if (this._imageUrls != null) {
+      this._imageUrls!.add(url);
+    }
+    else
+      this._imageUrls = [url];
+  }
   //todo add setters for the image
 
 
@@ -94,13 +109,18 @@ class Product{
     status = map["Status"];
     productId = map["ProductId"];
     url = map["Url"];
-    //todo main image and images
     description = map["Description"];
+    mainImage = map["MainImage"];
+    //todo error with this
+    // if(map["Images"] != null && map["Images"]!["Image"] != "") {
+    //   for (var image in map["Images"]["Image"] as List<dynamic>)
+    //     this.addImage = image;
+    // }
     taxClass = map["TaxClass"];
     brand = map["Brand"];
     primaryCategory = map["PrimaryCategory"];
     primaryCategoryId = map["PrimaryCategoryId"];
-    //todo add product data
+    productData = map["ProductData"];
   }
 
 
