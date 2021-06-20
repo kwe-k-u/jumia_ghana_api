@@ -83,9 +83,14 @@ class Product{
     quantity = int.parse(map["Quantity"]);
     available = int.parse(map["Available"]);
     price = double.parse(map["Price"]);
-    salePrice = double.parse(map["SalePrice"]);
-    saleStartDate = DateTime.parse(map["SaleStartDate"]);
-    saleEndDate = DateTime.parse(map["SaleEndDate"]);
+
+    if (map["SalePrice"] != "")
+      salePrice = double.parse(map["SalePrice"]);
+    if (map["SaleStartDate"] != "")
+      saleStartDate = DateTime.parse(map["SaleStartDate"]);
+    if (map["SaleEndDate"] != "")
+      saleEndDate = DateTime.parse(map["SaleEndDate"]);
+
     status = map["Status"];
     productId = map["ProductId"];
     url = map["Url"];

@@ -105,7 +105,7 @@ class BaseAPI{
     Map jsonMap = jsonDecode(data.body);
     var jsonContent = jsonMap["SuccessResponse"] ?? jsonMap["ErrorResponse"]["Head"];
     return jsonContent;
-
+//todo throw error if result failed;
   }
 
 
