@@ -4,10 +4,14 @@ import 'package:http/http.dart' as http;
 import 'package:jumia_gh_api/Objects/Brand.dart';
 import 'package:jumia_gh_api/Objects/Metric.dart';
 import 'package:jumia_gh_api/Objects/Order.dart';
+import 'package:jumia_gh_api/Objects/OrderComment.dart';
 import 'package:jumia_gh_api/Objects/Payout.dart';
 import 'package:jumia_gh_api/Objects/Product.dart';
+import 'package:jumia_gh_api/Objects/Role.dart';
 import 'package:jumia_gh_api/Objects/ShipmentProvider.dart';
+import 'package:jumia_gh_api/Objects/Statistics.dart';
 import 'package:jumia_gh_api/utils/baseAPI.dart';
+import 'package:jumia_gh_api/utils/resources.dart';
 import 'package:xml/xml.dart' as xmlBuild;
 
 
@@ -47,6 +51,48 @@ class Jumia extends BaseAPI{
 
     return orders;
   }
+
+  ///Returns the order in the store with the passed order [id]
+  Future<Order> getOrder(String id) async{
+    Order order;
+
+    Map<String,dynamic> map =
+    ( await get(action: 'GetOrder', id: id) )["Body"]["Orders"]["Order"];
+
+    order = Order.fromJson(map);
+
+    return order;
+  }
+
+
+  ///Returns the comments made on the order with the passed [id]
+  Future<List<OrderComment>> getOrderComments(String id) async{
+    List<OrderComment> comment = [];
+
+
+    //todo add a test and error handling
+    List< dynamic > map =
+    ( await get(action: 'GetOrderComments', id: id) )["Body"]["Comments"]["Comment"];
+
+    //adding the orders to the list
+    for(Map<String, dynamic> sub in map)
+      comment.add(OrderComment.fromJson(sub));
+
+
+    return comment;
+  }
+
+
+  ///Returns a statistic object on the performance and help of the account
+  Future<Statistics> getStatistics() async{
+    Statistics stat;
+
+    Map<String,dynamic> map =
+    ( await get(action: 'GetStatistics') )["Body"];
+    stat = Statistics.fromJson(map);
+    return stat;
+  }
+
 
   ///Returns a list of payout statements for the current user's store
   Future<List<Payout>> getPayoutStatements() async{
@@ -112,29 +158,51 @@ class Jumia extends BaseAPI{
   ///Creates a user account to manage the store to which the api key belongs
   Future<http.Response> createUser() async{
     final xml = xmlBuild.XmlBuilder();
-      xml.processing("xml", 'version="1.0" encoding="UTF-8"');
-      xml.element("Request",
-          nest: (){
-            xml.element("User",
-                nest: (){
-                    xml.element("Role",
-                        nest: "Seller API Access");
-                    xml.element("Email",
-                        nest: "kwekuappiah11@gmail.com");
-                    xml.element("Status",
-                        nest: "active");
-                    xml.element("Name",
-                        nest: "Kweku Acquaye");
-                    xml.element("DefaultLanguage",
-                        nest: "English");
-                    xml.element("NotifyNewUser",
-                        nest: 1);
-                });
-          });
+    xml.processing("xml", 'version="1.0" encoding="UTF-8"');
+    xml.element("Request",
+        nest: (){
+          xml.element("User",
+              nest: (){
+                xml.element("Role",
+                    nest: "Seller API Access");
+                xml.element("Email",
+                    nest: "kwekuappiah11@gmail.com");
+                xml.element("Status",
+                    nest: "active");
+                xml.element("Name",
+                    nest: "Kweku Acquaye");
+                xml.element("DefaultLanguage",
+                    nest: "English");
+                xml.element("NotifyNewUser",
+                    nest: 1);
+              });
+        });
 
-      // return xml.buildDocument().toXmlString();
+    // return xml.buildDocument().toXmlString();
 
     http.Response response = await post("UserCreate", xml.buildDocument().toString());
+    return response;
+  }
+
+
+  ///Creates a user account to manage the store to which the api key belongs
+  Future<http.Response> updateUserRole({required String email, required Role newRole}) async{
+    final xml = xmlBuild.XmlBuilder();
+    xml.processing("xml", 'version="1.0" encoding="UTF-8"');
+    xml.element("Request",
+        nest: (){
+          xml.element("User",
+              nest: (){
+                xml.element("Role",
+                    nest: parseRole(newRole));
+                xml.element("Email",
+                    nest: email);
+              });
+        });
+
+    // return xml.buildDocument().toXmlString();
+
+    http.Response response = await post("UserRoleUpdate", xml.buildDocument().toString());
     return response;
   }
 

@@ -5,7 +5,9 @@ import 'package:jumia_gh_api/Objects/Metric.dart';
 import 'package:jumia_gh_api/Objects/Order.dart';
 import 'package:jumia_gh_api/Objects/Payout.dart';
 import 'package:jumia_gh_api/Objects/Product.dart';
+import 'package:jumia_gh_api/Objects/Role.dart';
 import 'package:jumia_gh_api/Objects/ShipmentProvider.dart';
+import 'package:jumia_gh_api/Objects/Statistics.dart';
 import 'package:jumia_gh_api/jumia_gh_api.dart';
 
 import 'test_values.dart';
@@ -30,6 +32,11 @@ Future main() async{
     expect(products[0].customerFirstName, "azmath");
   });
 
+  test('Testing get order with id', () async{
+    Order order = await api.getOrder(spoof["GetOrders"]!["OrderId"]);
+    expect(order.customerFirstName, "azmath");
+  });
+
   test('Testing get payouts', () async{
     List<Payout> products = await api.getPayoutStatements();
     expect(products[0].subsidy, 0);
@@ -38,6 +45,11 @@ Future main() async{
   test('Testing get metrics', () async{
     Map<String, Metric> products = await api.getMetrics();
     expect(products['alltime']!.orderCount, 34);
+  });
+
+  test('Testing get statistics', () async{
+    Statistics stat = await api.getStatistics();
+    expect(stat.orderPendingOlder, 0);
   });
 
   //todo the call takes extremely long to complete(Jumia's server speed?)
@@ -54,8 +66,14 @@ Future main() async{
   test('Testing get create user', () async{
 
     Response response = await api.createUser();
-    expect(response.body, createUserErrorResponse);
+    expect(response.body.contains("ErrorResponse"), true);
     // an error response is expected for this because the account already exists
+  });
+
+  test('Testing user role update', () async{
+
+    Response response = await api.updateUserRole(email :secondEmail, newRole: Role.Full_Access);
+    expect(response.body.contains("SuccessResponse"), true);
   });
 
 

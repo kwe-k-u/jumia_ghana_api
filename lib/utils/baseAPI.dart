@@ -12,9 +12,9 @@ class BaseAPI{
 
 
   ///Uses Sha256 to generate the hash signature for the request
-  String __signRequest(String action, String format, String timestamp, String userId, String version){
+  String __signRequest(String action, String format, String timestamp, String userId, String version, [String orderId = ""]){
 
-    String signature = action + format + timestamp + userId + version;
+    String signature = action + format + orderId + timestamp + userId + version;
 
     //Encode the hash key
     var key = utf8.encode(_apiKey);
@@ -41,6 +41,8 @@ class BaseAPI{
     //adding order id if required
     if (orderId != null)
       orderId = "&OrderId=" + orderId;
+    else
+      orderId ="";
 
     String userId = "&UserID=" + __getUserID();
     String version = "&Version=" + __getApiVersion();
@@ -48,9 +50,9 @@ class BaseAPI{
 
 
     ///This section makes special additions to the link if needed
-    String signature = "&Signature=" + __signRequest(actionString, format, time, userId, version);
+    String signature = "&Signature=" + __signRequest(actionString, format, time, userId, version, orderId);
 
-    url += format + time + userId + version + signature;
+    url += format + orderId + time + userId + version + signature;
     return Uri.parse(url);
 
   }

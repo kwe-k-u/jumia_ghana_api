@@ -7,8 +7,10 @@ import 'package:jumia_gh_api/Objects/Order.dart';
 import 'package:jumia_gh_api/Objects/Payout.dart';
 import 'package:jumia_gh_api/Objects/Product.dart';
 import 'package:jumia_gh_api/Objects/ShipmentProvider.dart';
+import 'package:jumia_gh_api/Objects/Statistics.dart';
 import 'test_values.dart';
 
+@Skip("The objects will be created in the test 'product_get_post_test'")
 void main(){
 
 
@@ -43,6 +45,15 @@ void main(){
     ShipmentProvider provider = ShipmentProvider.fromJson(spoof["GetShipmentProviders"]!);
     expect(provider.name, "GH-3PL NE Legon VDO-Station");
   });
+
+
+  test("testing the statistics class", (){
+    Statistics stat = Statistics.fromJson(spoof["GetStatistics"]!);
+    expect(stat.orderPendingOlder, 0);
+    expect(stat.orderStatistics.standard, 0);
+    expect(stat.accountHealth.dayHealth.twoDayPercentage.value, 0.0);
+  });
+
 
 
 
