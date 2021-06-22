@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jumia_gh_api/Objects/Address.dart';
 import 'package:jumia_gh_api/Objects/Brand.dart';
+import 'package:jumia_gh_api/Objects/FeedCount.dart';
 import 'package:jumia_gh_api/Objects/Order.dart';
 import 'package:jumia_gh_api/Objects/Payout.dart';
 import 'package:jumia_gh_api/Objects/Product.dart';
@@ -52,6 +53,13 @@ void main(){
     expect(stat.orderPendingOlder, 0);
     expect(stat.orderStatistics.standard, 0);
     expect(stat.accountHealth.dayHealth.twoDayPercentage.value, 0.0);
+  });
+
+
+
+  test('testing feed count', (){
+    FeedCount feed = FeedCount.fromJson(spoof["FeedCount"]!);
+    expect(feed.total, 0);
   });
 
 

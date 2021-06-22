@@ -2,6 +2,9 @@ library jumia_gh_api;
 
 import 'package:http/http.dart' as http;
 import 'package:jumia_gh_api/Objects/Brand.dart';
+import 'package:jumia_gh_api/Objects/Category.dart';
+import 'package:jumia_gh_api/Objects/Feed.dart';
+import 'package:jumia_gh_api/Objects/FeedCount.dart';
 import 'package:jumia_gh_api/Objects/Metric.dart';
 import 'package:jumia_gh_api/Objects/Order.dart';
 import 'package:jumia_gh_api/Objects/OrderComment.dart';
@@ -205,6 +208,144 @@ class Jumia extends BaseAPI{
     http.Response response = await post("UserRoleUpdate", xml.buildDocument().toString());
     return response;
   }
+
+
+
+  ///Updates the Images that exist for the passed product skus
+  /// the passed data([map]) is a key-value per where the key is the product sku
+  /// and the value is a list of urls for the image;
+  Future<http.Response> productImage(Map<String,List<String>> map) async{
+    final xml = xmlBuild.XmlBuilder();
+    xml.processing("xml", 'version="1.0" encoding="UTF-8"');
+    xml.element("Request",
+        nest: (){
+          xml.element("ProductImage",
+              nest: (){
+
+                for(String sku in map.keys){
+                  xml.element("SellerSku",
+                    nest: (){
+
+                      xml.element("Images",
+                        nest: (){
+                          for(String url in map[sku]!){
+                            xml.element("Image", nest: url);
+                          }
+                        },
+                      );
+                    },
+                  );
+
+                }
+
+
+              });
+        });
+
+    // return xml.buildDocument().toXmlString();
+
+    http.Response response = await post("Image", xml.buildDocument().toString());
+    return response;
+  }
+//todo create test with singleImage, multiple products and multiple images
+
+
+
+
+  ///Removes the products with list of skus passed
+  Future<http.Response> productRemove(List<String> products) async{
+    final xml = xmlBuild.XmlBuilder();
+    xml.processing("xml", 'version="1.0" encoding="UTF-8"');
+    xml.element("Request",
+        nest: (){
+          xml.element("Product",
+              nest: (){
+
+                for(String sku in products){
+                  xml.element("SellerSku",
+                    nest: sku
+                  );
+                }
+              });
+        });
+
+
+    http.Response response = await post("ProductRemove", xml.buildDocument().toString());
+    return response;
+  }
+//todo create test
+
+
+
+  ///Returns the Feed count statistics for the store
+  Future<FeedCount> feedCount() async{
+    FeedCount feed;
+
+    Map<String,dynamic> map =
+    ( await get(action: 'FeedCount') )["Body"]["FeedCount"];
+
+    feed = FeedCount.fromJson(map);
+
+
+    return feed;
+  }
+
+
+
+
+  ///Returns a list of the active feeds for the user
+  Future<List<Feed>> feedList() async{
+    List<Feed> feed = [];
+
+    //access the list of feed maps from the json
+    List<dynamic> map =
+    ( await get(action: 'FeedList') )["Body"];
+
+    //adding the feeds to the list
+    for(Map<String, dynamic> sub in map)
+      feed.add(Feed.fromJson(sub));
+
+    return feed;
+  }
+
+
+  ///Returns a list of the active feeds for the user
+  Future<List<Feed>> feedStatus() async{
+    List<Feed> feed = [];
+
+    //access the list of feed maps from the json
+    List<dynamic> map =
+    ( await get(action: 'FeedStatus') )["Body"];
+
+    //adding the feeds to the list
+    for(Map<String, dynamic> sub in map)
+      feed.add(Feed.fromJson(sub));
+
+    return feed;
+  }
+
+  ///Returns a list of the active feeds for the user
+  Future<List<Category>> getCategoryTree() async{
+    List<Category> list = [];
+
+    //access the list of feed maps from the json
+    List<dynamic> map =
+    ( await get(action: 'GetCategoryTree') )["Body"]["Categories"]["Category"];
+
+    //adding the feeds to the list
+    for(Map<String, dynamic> sub in map)
+      list.add(Category.fromJson(sub));
+
+    return list;
+  }
+
+
+
+
+
+
+
+
 
 
 }

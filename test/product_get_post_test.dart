@@ -1,6 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:jumia_gh_api/Objects/Brand.dart';
+import 'package:jumia_gh_api/Objects/Category.dart';
+import 'package:jumia_gh_api/Objects/Feed.dart';
+import 'package:jumia_gh_api/Objects/FeedCount.dart';
 import 'package:jumia_gh_api/Objects/Metric.dart';
 import 'package:jumia_gh_api/Objects/Order.dart';
 import 'package:jumia_gh_api/Objects/Payout.dart';
@@ -78,14 +81,33 @@ Future main() async{
 
 
 
+  test('Testing feed count', () async{
+    FeedCount stat = await api.feedCount();
+    expect(stat.canceled, 0);
+  });
+
+
+  test("Testing get category tree", () async{
+    List<Category> list = await api.getCategoryTree();
+
+    expect(list[0].name, "Automobile");
+    expect(list[0].categoryId, 1020696);
+    expect(list[0].children![0].children![0].name, "Cleaning Kits");
+  });
+
+
+  //
+  // test('Testing feed status', () async{
+  //   List<Feed> stat = await api.feedStatus();
+  //   expect(stat.canceled, 0);
+  // });
+
+
+  // test('Testing feed list', () async{
+  //   List<Feed> list = await api.feedList();
+  //   //no expect checks because the account may not always have a feed list
+  // });
+
 
 }
 
-
-// Future main() async {
-//   test("xml", () async{
-//   Jumia api = Jumia(apikey, userId);
-//   await api.createUser();
-//   print(await api.createUser());
-//   });
-// }
