@@ -8,12 +8,12 @@ This is a wrapper for [Jumia Ghana](https://www.jumia.com.gh)'s seller endpoints
 2. Navigate to integrations after logging in and copy your API key and ID (usually your email)
 3. Add the package to your pubsec.yaml file in the project
 4. Initialise an instance
-`  Jumia api = Jumia(apikey, userId);`
+```  Jumia api = Jumia(apikey, userId);```
 
 
-##End Points  (15/57 implemented)
-####[x] -> implemented; 
-####[ ]-> Not yet implemented)
+## End Points  (15/57 implemented)
+#### [x] -> implemented; 
+#### [ ]-> Not yet implemented)
 
 - [x] GetProducts
 - [x] ProductRemove
