@@ -16,7 +16,7 @@ class Product{
   DateTime? _saleStartDate;
   DateTime? _saleEndDate;
   late String _url;
-  List<String>? _imageUrls;
+  List<String> _imageUrls = [];
   late String _mainImage;
   late String _primaryCategory;
   late String _primaryCategoryId;
@@ -80,11 +80,7 @@ class Product{
   set mainImage(String url) => this._mainImage = url;
   set setImages(List<String> url) => this._imageUrls = url;
   set addImage(String url) {
-    if (this._imageUrls != null) {
-      this._imageUrls!.add(url);
-    }
-    else
-      this._imageUrls = [url];
+      this._imageUrls.add(url);
   }
   //todo add setters for the image
 
@@ -112,10 +108,14 @@ class Product{
     description = map["Description"];
     mainImage = map["MainImage"];
     //todo error with this
-    // if(map["Images"] != null && map["Images"]!["Image"] != "") {
-    //   for (var image in map["Images"]["Image"] as List<dynamic>)
-    //     this.addImage = image;
-    // }
+    if(map["Images"]  != "") {
+      if (map["Images"]["Image"].runtimeType == String)
+        this.addImage = map["Images"]["Image"];
+      else
+        for (var image in map["Images"]["Image"]) {
+          this.addImage = image.toString();
+        }
+    }
     taxClass = map["TaxClass"];
     brand = map["Brand"];
     primaryCategory = map["PrimaryCategory"];

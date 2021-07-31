@@ -31,11 +31,14 @@ class Jumia extends BaseAPI{
 
     //access the list of product maps from the json
     List< dynamic > map =
-    ( await get(action: 'GetProducts') )["Body"]["Products"]["Product"];
-
+    ( await get(action: 'GetProducts') )["Body"]["Products"]["Product"] ;
     //adding the products to the list
-    for(Map<String, dynamic> sub in map)
-      products.add(Product.fromJson(sub));
+
+    for(Map<String, dynamic> sub in map) {
+        products.add(Product.fromJson(sub));
+    }
+
+    print("her0");
 
     return products;
   }
