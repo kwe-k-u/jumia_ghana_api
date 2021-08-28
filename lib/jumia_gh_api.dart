@@ -10,6 +10,7 @@ import 'package:jumia_gh_api/Objects/Order.dart';
 import 'package:jumia_gh_api/Objects/OrderComment.dart';
 import 'package:jumia_gh_api/Objects/Payout.dart';
 import 'package:jumia_gh_api/Objects/Product.dart';
+import 'package:jumia_gh_api/Objects/QcStatus.dart';
 import 'package:jumia_gh_api/Objects/Role.dart';
 import 'package:jumia_gh_api/Objects/ShipmentProvider.dart';
 import 'package:jumia_gh_api/Objects/Statistics.dart';
@@ -38,13 +39,12 @@ class Jumia extends BaseAPI{
         products.add(Product.fromJson(sub));
     }
 
-    print("her0");
 
     return products;
   }
 
   ///Returns a list of orders for the current user's store
-  Future<List<Order>> getOrders() async{
+  Future<List<Order>> getOrders() async{//todo add createdAfter parameter
     List<Order> orders = [];
 
     //access the list of orders maps from the json
@@ -186,7 +186,7 @@ class Jumia extends BaseAPI{
 
     // return xml.buildDocument().toXmlString();
 
-    http.Response response = await post("UserCreate", xml.buildDocument().toString());
+    http.Response response = await post(action:"UserCreate",body: xml.buildDocument().toString());
     return response;
   }
 
@@ -208,7 +208,9 @@ class Jumia extends BaseAPI{
 
     // return xml.buildDocument().toXmlString();
 
-    http.Response response = await post("UserRoleUpdate", xml.buildDocument().toString());
+    http.Response response = await post(
+        action: "UserRoleUpdate",
+        body: xml.buildDocument().toString());
     return response;
   }
 
@@ -247,7 +249,10 @@ class Jumia extends BaseAPI{
 
     // return xml.buildDocument().toXmlString();
 
-    http.Response response = await post("Image", xml.buildDocument().toString());
+    http.Response response = await post(
+        action: "Image",
+        body: xml.buildDocument().toString()
+    );
     return response;
   }
 //todo create test with singleImage, multiple products and multiple images
@@ -273,7 +278,10 @@ class Jumia extends BaseAPI{
         });
 
 
-    http.Response response = await post("ProductRemove", xml.buildDocument().toString());
+    http.Response response = await post(
+        action:"ProductRemove",
+        body:xml.buildDocument().toString()
+    );
     return response;
   }
 //todo create test
@@ -342,7 +350,20 @@ class Jumia extends BaseAPI{
     return list;
   }
 
+  Future<List<QcStatus>> getQcStatus () async {
+    List<QcStatus> list = [];
 
+    //access the list of feed maps from the json
+    List<dynamic> map =
+    ( await get(action: 'GetQcStatus') )["Body"]["Status"];
+
+    //adding the feeds to the list
+    for(Map<String, dynamic> sub in map)
+      list.add(QcStatus.fromJson(sub));
+
+    return list;
+
+  }
 
 
 

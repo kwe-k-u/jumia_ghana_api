@@ -15,33 +15,43 @@ This is a wrapper for [Jumia Ghana](https://www.jumia.com.gh)'s seller endpoints
 #### [x] -> implemented; 
 #### [ ]-> Not yet implemented)
 
-- [x] GetProducts
-- [x] ProductRemove
-- [x] Image
-- [x] GetBrands
 - [x] FeedList
+- [x] GetBrands
 - [x] GetCategoryTree
 - [x] GetOrder
 - [x] GetOrders
+- [x] GetProducts
 - [x] GetStatistics
 - [x] GetShipmentProviders
 - [x] GetMetrics
+- [x] GetQcStatus
 - [x] GetPayoutStatus
+- [x] Image
+- [x] ProductRemove
 - [x] SellerUpdate
 - [x] UserUpdate
 - [x] UserCreate
-- [ ] ProductCreate
-- [ ] ProductUpdate
-- [ ] GetCategoryAttributes
-- [ ] GetCategoryByAttributeSet
-- [ ] ProductStockUpdate
-- [ ] ProductWarehouseStockUpdate
-- [ ] GetProductStocks
+- [ ] CreateForwardManifest
+- [ ] CreatePickupRequest
+- [ ] CreateWebhook
+- [ ] DeleteWebhook
 - [ ] FeedOffsetList
 - [ ] FeedCancel
-- [ ] GetFeedRawInput
 - [ ] FeedStatus
+- [ ] GetCategoryAttributes
+- [ ] GetCategoryByAttributeSet
+- [ ] GetDocument
+- [ ] GetFailureReasons
+- [ ] GetFeedRawInput
+- [ ] GetProductStocks
+- [ ] GetManifestList
 - [ ] GetMultipleOrderItems
+- [ ] GetWebhooks
+- [ ] GetWebhookEntries
+- [ ] ProductCreate
+- [ ] ProductStockUpdate
+- [ ] ProductUpdate
+- [ ] ProductWarehouseStockUpdate
 - [ ] SetStatusToCancelled
 - [ ] SetStatusToPackagedByMarketPlace
 - [ ] SetStatusToReadyToShip
@@ -49,20 +59,10 @@ This is a wrapper for [Jumia Ghana](https://www.jumia.com.gh)'s seller endpoints
 - [ ] SetStatusToFailedDelivery
 - [ ] SetStatusToDelivered
 - [ ] SetInvoiceAccessKey
-- [ ] GetDocument
-- [ ] GetFailureReasons
 - [ ] SetInvoiceNumber
-- [ ] CreatePickupRequest
 - [ ] SetStatusToReturn
 - [ ] SetStatusToReturnReceived
 - [ ] SetStatusToReturnApproved
 - [ ] SetStatusToReturnRejected
-- [ ] GetManifestList
-- [ ] CreateForwardManifest
 - [ ] SetManifestStatusToShipped
-- [ ] GetQcStatus
-- [ ] GetWebhooks
-- [ ] GetWebhookEntries
-- [ ] CreateWebhook
-- [ ] DeleteWebhook
 

@@ -1,5 +1,6 @@
 
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
@@ -32,17 +33,38 @@ class BaseAPI{
 
 
   ///Generates a uri to the api endpoint based on the passed [action]
-  Uri _linkBuilder({required String action, String? orderId}){
+  Uri _linkBuilder({
+    required String action,
+    String? orderId,
+    DateTime? createdAfter,
+  }){
+
+    ///Method to add all the extra parameters that a request may require
+     String _params(){
+       String _result = "";
+
+       ///Appends the parameter to the result string
+       void _append(String param, String value) => _result +="&$param=$value";
+
+
+       if (orderId != null)
+         _append("orderId", orderId);
+       if (createdAfter != null)
+         _append("createdAfter", _parseDate(createdAfter));
+
+
+       return _result;
+     }
+
+
+
+
     String actionString = "Action=" + action;
     String url = "https://sellercenter-api.jumia.com.gh/?" + actionString;
     String format = "&Format=JSON";
     String time = "&Timestamp=" + __getTime();
 
     //adding order id if required
-    if (orderId != null)
-      orderId = "&OrderId=" + orderId;
-    else
-      orderId ="";
 
     String userId = "&UserID=" + __getUserID();
     String version = "&Version=" + __getApiVersion();
@@ -50,9 +72,9 @@ class BaseAPI{
 
 
     ///This section makes special additions to the link if needed
-    String signature = "&Signature=" + __signRequest(actionString, format, time, userId, version, orderId);
+    String signature = "&Signature=" + __signRequest(actionString, format, time, userId, version, _params());
 
-    url += format + orderId + time + userId + version + signature;
+    url += format + _params() + time + userId + version + signature;
     return Uri.parse(url);
 
   }
@@ -73,25 +95,31 @@ class BaseAPI{
   }
 
 
-  ///Formats the time sequence for the api url
+  ///Returns the current time formatted for url encoding
   String __getTime() {
 
     DateTime now = DateTime.now();
     DateTime currentTime = new DateTime(now.year, now.month, now.day, now.hour, now.minute, now.second);
-    String currentTimeString = currentTime.toIso8601String().toString().replaceAll(":", "%3A");
+    return _parseDate(currentTime);
+  }
 
-    currentTimeString = currentTimeString.replaceAll(".", "%2B");
-    currentTimeString = currentTimeString.replaceAll(" ", "");
-    currentTimeString = currentTimeString.substring(0,currentTimeString.length-1) + "%3A00";
-    return currentTimeString;
+
+  ///Formats a time sequence for the api url
+  String _parseDate(DateTime date){
+    String currentTimeString = date.toIso8601String().toString().replaceAll(":", "%3A");
+
+  currentTimeString = currentTimeString.replaceAll(".", "%2B");
+  currentTimeString = currentTimeString.replaceAll(" ", "");
+  currentTimeString = currentTimeString.substring(0,currentTimeString.length-1) + "%3A00";
+  return currentTimeString;
   }
 
 
 
   ///A POST function that posts the passed [body] to the Jumia endpoint
-  Future<http.Response> post(String action, String body) async{
+  Future<http.Response> post({required String action, String? body}) async{
     Uri url = _linkBuilder(action: action);
-    http.Response data = await http.post(url,body: body);
+    http.Response data = await http.post(url, body: body);
 
     return data;
   }
