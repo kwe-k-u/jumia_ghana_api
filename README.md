@@ -3,16 +3,12 @@
 ## Description
 This is a wrapper for [Jumia Ghana](https://www.jumia.com.gh)'s seller endpoints. Purely third party, it provides acces for flutter developers to leverage flutter and dart to build applications to support sellers on the Jumia platform.
 
-## Getting Started
-1. To use the endpoints, you will need a seller account with Jumia.
-2. Navigate to integrations after logging in and copy your API key and ID (usually your email)
-3. Add the package to your pubsec.yaml file in the project
-4. Initialise an instance
 ```  Jumia api = Jumia(apikey, userId);```
 
 
-## End Points  (15/57 implemented)
+## End Points  (16/57 implemented)
 #### [x] -> implemented; 
+#### [-] -> Not implemented due to jumia security concerns; 
 #### [ ]-> Not yet implemented)
 
 - [x] FeedList
@@ -29,6 +25,8 @@ This is a wrapper for [Jumia Ghana](https://www.jumia.com.gh)'s seller endpoints
 - [x] Image
 - [x] ProductRemove
 - [x] SellerUpdate
+- [x] SetStatusToCancelled
+- [x] SetStatusToReadyToShip
 - [x] UserUpdate
 - [x] UserCreate
 - [ ] CreateForwardManifest
@@ -52,17 +50,15 @@ This is a wrapper for [Jumia Ghana](https://www.jumia.com.gh)'s seller endpoints
 - [ ] ProductStockUpdate
 - [ ] ProductUpdate
 - [ ] ProductWarehouseStockUpdate
-- [ ] SetStatusToCancelled
-- [ ] SetStatusToPackagedByMarketPlace
-- [ ] SetStatusToReadyToShip
-- [ ] SetStatusToShipped
-- [ ] SetStatusToFailedDelivery
-- [ ] SetStatusToDelivered
-- [ ] SetInvoiceAccessKey
 - [ ] SetInvoiceNumber
-- [ ] SetStatusToReturn
-- [ ] SetStatusToReturnReceived
-- [ ] SetStatusToReturnApproved
-- [ ] SetStatusToReturnRejected
-- [ ] SetManifestStatusToShipped
+- [] SetManifestStatusToShipped
+- [-] SetStatusToPackagedByMarketPlace
+- [-] SetStatusToShipped
+- [-] SetStatusToFailedDelivery
+- [-] SetStatusToDelivered
+- [-] SetInvoiceAccessKey
+- [-] SetStatusToReturn
+- [-] SetStatusToReturnReceived
+- [-] SetStatusToReturnApproved
+- [-] SetStatusToReturnRejected
 

@@ -1,6 +1,5 @@
 
 import 'dart:convert';
-import 'dart:html';
 
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
@@ -37,6 +36,17 @@ class BaseAPI{
     required String action,
     String? orderId,
     DateTime? createdAfter,
+    String? orderItemId,
+    String? reason,
+    String? reasonDetail,
+    String? shippingProvider,
+    String? deliveryType,
+    String? orderItemIds,
+    String? trackingNumber,
+    String? accessKey,
+    String? serialNumber,
+    String? invoiceEncodedXml,
+    String? documentURl,
   }){
 
     ///Method to add all the extra parameters that a request may require
@@ -48,9 +58,17 @@ class BaseAPI{
 
 
        if (orderId != null)
-         _append("orderId", orderId);
+         _append("OrderId", orderId);
+       if (orderItemId != null)
+         _append("OrderItemId", orderItemId);
+
        if (createdAfter != null)
-         _append("createdAfter", _parseDate(createdAfter));
+         _append("CreatedAfter", _parseDate(createdAfter));
+       if (reason != null)
+         _append("Reason", reason);
+       if(reasonDetail != null)
+         _append("ReasonDetail", reasonDetail);
+
 
 
        return _result;
@@ -64,7 +82,6 @@ class BaseAPI{
     String format = "&Format=JSON";
     String time = "&Timestamp=" + __getTime();
 
-    //adding order id if required
 
     String userId = "&UserID=" + __getUserID();
     String version = "&Version=" + __getApiVersion();
@@ -106,19 +123,43 @@ class BaseAPI{
 
   ///Formats a time sequence for the api url
   String _parseDate(DateTime date){
-    String currentTimeString = date.toIso8601String().toString().replaceAll(":", "%3A");
-
-  currentTimeString = currentTimeString.replaceAll(".", "%2B");
-  currentTimeString = currentTimeString.replaceAll(" ", "");
-  currentTimeString = currentTimeString.substring(0,currentTimeString.length-1) + "%3A00";
-  return currentTimeString;
+    String dateString = _parseString(date.toIso8601String());
+    dateString = dateString.substring(0, dateString.length -1) + "%3A00";
+    return dateString;
   }
 
 
+  ///Encodes the [string] into url-utf8 format. (replacing . with %2B)
+  String _parseString(String string){
+    String result = Uri.encodeQueryComponent(string);
+    result = result.replaceAll(".", "%2B");
+    return result;
+  }
+
 
   ///A POST function that posts the passed [body] to the Jumia endpoint
-  Future<http.Response> post({required String action, String? body}) async{
-    Uri url = _linkBuilder(action: action);
+  ///[extra] is a json to contain any addition parameters tthat need to be passed along in the request
+  Future<http.Response> post({
+    Map<String, dynamic> extra = const {},
+    required String action,
+    String? body
+  }) async{
+    Uri url = _linkBuilder(
+        action: action,
+      orderId: extra["orderId"] as String,
+      createdAfter: extra["createAfter"] as DateTime,
+      orderItemId: extra["orderItemId"] as String,
+      reason: extra["reason"] as String,
+      reasonDetail: extra["reasonDetail"] as String,
+      shippingProvider: extra["shippingProvider"] as String,
+      orderItemIds: _parseString(extra["orderItemsIds"].toString()), //todo check if causes error
+      deliveryType:  extra["deliveryType"],
+      trackingNumber: extra["trackingNumber"],
+      serialNumber: extra["serialNumber"],
+      accessKey: extra["accessKey"],
+      invoiceEncodedXml: extra["invoiceEncodeXml"],
+      documentURl: extra["documentUrl"]
+    );
     http.Response data = await http.post(url, body: body);
 
     return data;

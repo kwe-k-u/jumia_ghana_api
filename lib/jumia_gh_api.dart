@@ -172,11 +172,11 @@ class Jumia extends BaseAPI{
                 xml.element("Role",
                     nest: "Seller API Access");
                 xml.element("Email",
-                    nest: "kwekuappiah11@gmail.com");
+                    nest: "mercury@duala.com");
                 xml.element("Status",
                     nest: "active");
                 xml.element("Name",
-                    nest: "Kweku Acquaye");
+                    nest: "Mercury");
                 xml.element("DefaultLanguage",
                     nest: "English");
                 xml.element("NotifyNewUser",
@@ -362,6 +362,56 @@ class Jumia extends BaseAPI{
       list.add(QcStatus.fromJson(sub));
 
     return list;
+
+  }
+
+
+  //todo untested
+  ///Changes the order status of order with the passed [id]
+  Future<void> setStatusToReadyToShip({
+    required String shippingProvider,
+    required String deliveryType,
+    required List<String> orderItemIds,
+    String? trackingNumber,
+    String? serialNumber,
+    String? accessKey,
+    String? invoiceEncodedXml,
+    String? documentUrl,
+  }) async {
+
+    await post(
+        action: "SetStatusToReadyToShip",
+        extra: {
+          "shippingProvider" : shippingProvider,
+          "deliveryType" : deliveryType,
+          "orderItemIds" : orderItemIds,
+          "trackingNumber" : trackingNumber,
+          "accessKey" : accessKey,
+          "serialNumber" : serialNumber,
+          "invoiceEncodedXml" : invoiceEncodedXml,
+          "documentUrl" : documentUrl
+    });
+
+  }
+
+
+
+  //todo untested
+  ///Changes the order status of order with the passed [id]
+  Future<void> setStatusToCanceled({
+    required String orderItemId,
+    required String reason,
+    required String reasonDetail,
+}) async {
+
+    await post(
+        action: "SetStatusToCanceled",
+        extra: {
+          'orderItemId' : orderItemId,
+          "reason" : reason,
+          "reasonDetail" : reasonDetail
+        }
+    );
 
   }
 
